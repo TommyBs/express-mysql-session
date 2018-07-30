@@ -1,22 +1,23 @@
-# express-mysql-session
+# express-mysql-session-sharded
 
 A MySQL session store for [express.js](http://expressjs.com/).
+
+This is a fork of express-mysql-session https://github.com/chill117/express-mysql-session that allows for dynamic database switching for a 'sharded' set-up.
 
 [![Build Status](https://travis-ci.org/chill117/express-mysql-session.svg?branch=master)](https://travis-ci.org/chill117/express-mysql-session) [![Status of Dependencies](https://david-dm.org/chill117/express-mysql-session.svg)](https://david-dm.org/chill117/express-mysql-session)
 
 
 ## Installation
 
-Add to your application via `npm`:
-```
-npm install express-mysql-session --save
-```
-This will install `express-mysql-session` and add it to your application's `package.json` file.
+For now express-mysql-session-sharded is not part of NPM so you will need to manually add the github repo url to your package.json file to install. Then run npm install from the command line. e.g:
 
+"express-mysql-session-sharded": "https://github.com/TommyBs/express-mysql-session-sharded.git",
 
 ## Important Notes
 
-Potential gotchas and other important information goes here.
+There are some potential gotchas. At the moment you will need to create the `sessions` database table on all your relevant DB machines. Also note that only the `get`, `set`, `touch` and `delete` session methods implement switching databases. So you will need to either use MySQL event scheduler to remove invalid sessions or use a cronjob that calls a script to do so. 
+
+At the moment you also still need to pass in a standard connection as well.
 
 ### Older Versions
 
@@ -29,19 +30,25 @@ This module creates a database table to save session data. This data is stored i
 
 ## How to Use
 
-Use with your express session middleware, like this:
+Use with your express session middleware, like this (NOTE THE NEW `shardFunction` option. This is a function that gets passed the session_id as a single parameter, you should use this to work out what shard the session sits on. In the example below it uses a simple md5 -> int -> modulus conversion to work out the shard_id. `DB` in this instance would be a helper class that determines what database pool to use:
 ```js
 var express = require('express');
 var app = module.exports = express();
 var session = require('express-session');
-var MySQLStore = require('express-mysql-session')(session);
+var MySQLStore = require('express-mysql-session-sharded')(session);
 
 var options = {
 	host: 'localhost',
 	port: 3306,
 	user: 'session_test',
 	password: 'password',
-	database: 'session_test'
+	database: 'session_test',
+	shardFunction:function(session_id) {
+  	let hash = crypto.createHash('md5');
+	let shard_id = hash.update(session_id).digest('hex');
+	shard_id = (parseInt(shard_id.replace(/[^\d]+/ig, '')) % 1024) + 1;
+  	return DB.getPoolForShardId(shard_id)
+	}
 };
 
 var sessionStore = new MySQLStore(options);
