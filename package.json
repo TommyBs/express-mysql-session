@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/TommyBs/express-mysql-session"
+    "url": "git://github.com/TommyBs/express-mysql-session-sharded"
   },
   "author": {
     "name": "Tom Berwick",
@@ -38,6 +38,6 @@
   },
   "readmeFilename": "readme.md",
   "bugs": {
-    "url": "https://github.com/TommyBs/express-mysql-session/issues"
+    "url": "https://github.com/TommyBs/express-mysql-session-sharded/issues"
   }
 }
