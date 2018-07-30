@@ -1,18 +1,18 @@
 {
-  "name": "express-mysql-session",
-  "description": "A MySQL session store for express.js",
-  "version": "2.0.0",
+  "name": "express-mysql-session-sharded",
+  "description": "A MySQL session store for express.js that enables sharding",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "grunt test"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/chill117/express-mysql-session"
+    "url": "git://github.com/TommyBs/express-mysql-session"
   },
   "author": {
-    "name": "Charles Hill",
-    "email": "chill@degreesofzero.com"
+    "name": "Tom Berwick",
+    "email": "git@tberwick.co.uk"
   },
   "license": "MIT",
   "dependencies": {
@@ -38,6 +38,6 @@
   },
   "readmeFilename": "readme.md",
   "bugs": {
-    "url": "https://github.com/chill117/express-mysql-session/issues"
+    "url": "https://github.com/TommyBs/express-mysql-session/issues"
   }
 }
