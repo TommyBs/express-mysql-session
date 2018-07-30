@@ -223,7 +223,7 @@ module.exports = function(session) {
 			this.options.schema.columnNames.data,
 			this.options.schema.columnNames.data
 		];
-
+		this.connection = this.options.shardFunction(session_id)
 		this.query(sql, params, function(error) {
 
 			if (error) {
@@ -271,7 +271,7 @@ module.exports = function(session) {
 			this.options.schema.columnNames.session_id,
 			session_id
 		];
-
+		this.connection = this.options.shardFunction(session_id)
 		this.query(sql, params, function(error) {
 
 			if (error) {
@@ -296,7 +296,7 @@ module.exports = function(session) {
 			this.options.schema.columnNames.session_id,
 			session_id
 		];
-
+		this.connection = this.options.shardFunction(session_id)
 		this.query(sql, params, function(error) {
 
 			if (error) {
