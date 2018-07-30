@@ -79,6 +79,9 @@ module.exports = function(session) {
 				expires: 'expires',
 				data: 'data'
 			}
+		},
+		shardFunction: (session_id) => {
+			throw "You must implement a shard function"
 		}
 	};
 
@@ -157,7 +160,7 @@ module.exports = function(session) {
 			this.options.schema.columnNames.session_id,
 			session_id
 		];
-
+		this.connection = this.shardFunction(session_id)
 		this.query(sql, params, function(error, rows) {
 
 			if (error) {
