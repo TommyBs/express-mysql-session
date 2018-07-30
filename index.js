@@ -160,7 +160,7 @@ module.exports = function(session) {
 			this.options.schema.columnNames.session_id,
 			session_id
 		];
-		this.connection = this.shardFunction(session_id)
+		this.connection = this.options.shardFunction(session_id)
 		this.query(sql, params, function(error, rows) {
 
 			if (error) {
